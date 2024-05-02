@@ -39,4 +39,5 @@ Locales['fr'] = {
     ['checkplate'] = "Vérifier la plaque",
     ['ownerVeh_name'] = "Aucun enregistrement pour ce véhicule",
     ['ownerVeh_namee'] = "Le véhicule appartient à %s",
+    ['chest_interaction'] = "[E] - Acceder au coffre"
 }

@@ -4,8 +4,11 @@ Config.Locale = "fr"
 Config.copLabel = "L.S.P.D"
 Config.jobname = "police"
 Config.Markers = {
+    color = {0, 18, 71},
     id = 21,
-
+    size = 1.0,
+    animate = true,
+    turn = false
 }
 
 -- █████   ██████  ██████ ██    ██ ███████ ██ ██           ██████  ██████  ███    ██ ███████ ██  ██████  
@@ -258,4 +261,10 @@ Config.PlayersInteractions = {
         animDict = "mp_arresting",
         animName = "a_uncuff"
     }
+}
+
+Config.Chest = {
+    pos = vec3(448.92440795898, -997.72045898438, 30.689584732056),
+    markerZone = 5,
+    interactZone = 2,
 }

@@ -44,3 +44,25 @@ function PlayAnim(ped, animDict, animName, duration, body)
         Wait(duration)
     end
 end
+
+function CreateCameraa(x, y, z, w, rotX)
+    local cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
+    SetCamCoord(cam, x, y, z)
+    SetCamActive(cam, true)
+    SetCamRot(cam, rotX, 0.0, w, 2) -- Utilisez heading comme rotation Z
+    RenderScriptCams(true, false, 0, true, false)
+    NetworkSetEntityInvisibleToNetwork(PlayerPedId(), true)
+    FreezeEntityPosition(PlayerPedId(), true)
+    return cam
+end
+
+function DestroyCamm(cam)
+    if (not ESX.PlayerData.job or ESX.PlayerData.job.name ~= Config.jobname) then return false end
+    DestroyCam(cam, false)
+    SetCamActive(cam, false)
+    RenderScriptCams(false, false, 0, false, false)
+    NetworkSetEntityInvisibleToNetwork(PlayerPedId(), false)
+    FreezeEntityPosition(PlayerPedId(), false)
+    SetEntityCoords(PlayerPedId(), last_coords)
+    cam = nil
+end

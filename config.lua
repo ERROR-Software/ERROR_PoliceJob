@@ -268,3 +268,16 @@ Config.Chest = {
     markerZone = 5,
     interactZone = 2,
 }
+
+Config.Cctv = {
+    interact_pos = vec3(444.78967285156,-998.87542724609,34.970180511475),
+    markerZone = 5,
+    interactZone = 2,
+    cams = {
+        {label = "Caméra supérette 1", coords = vec4(372.73089599609, 330.15277099609,105.7, 226.63302612305), rotX = -35.0},
+        {label = "Caméra supérette 2", coords = vec4(373.3410, 331.1681, 105.7686, 210.7031), rotX = -35.0},
+        {label = "Fleeca Bank 1", coords = vec4(-2965.6858, 476.5087, 17.7483, 316.9306), rotX = -35.0},
+        {label = "Caméra concess", coords = vec4(-62.8412, -1101.7107, 33.5577, 218.5712), rotX = -35.0},
+        {label = "Caméra pacific standard", coords = vec4(259.6820, 217.1540, 116.4139, 93.7624), rotX = -52.0},
+    }
+}

@@ -51,7 +51,7 @@ CreateThread(function()
         if #(GetEntityCoords(PlayerPedId()) - Config.garage['deleteVehicles']) > Config.garage['DeleteInteractDist'] then return true end
         msec = 0
         if (Config.Markers) then
-            DrawMarker(Config.Markers['id'], Config.garage['deleteVehicles'].x, Config.garage['deleteVehicles'].y, Config.garage['deleteVehicles'].z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 2.0, 2.0, 2.0, 255, 128, 0, 50, false, true, 2, nil, nil, false)
+            DrawMarker(Config.Markers['id'], Config.garage['deleteVehicles'].x, Config.garage['deleteVehicles'].y, Config.garage['deleteVehicles'].z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, Config.Markers['color'][1], Config.Markers['color'][2], Config.Markers['color'][3], 50, Config.Markers['animate'], true, 2, Config.Markers['turn'], nil, false)
         end
         lib.showTextUI(_U('delete_veh'), {position = "left-center"})
         if (IsControlJustPressed(0, 51)) then

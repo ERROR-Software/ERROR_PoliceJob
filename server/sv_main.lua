@@ -1,5 +1,17 @@
 local cuffed_players = {}
 
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(src)
+    local xPlayer = ESX.GetPlayerFromId(src)
+    if (xPlayer.job.name ~= Config.jobname) then return false end
+    local stashid = ("%s-police"):format(xPlayer.getIdentifier())
+    MySQL.query("SELECT * FROM ox_inventory WHERE name = ?", {stashid}, function(res)
+        if not res[1] then
+            exports.ox_inventory:RegisterStash(stashid, ("Casier %s"):format(Config.copLabel), Config.PersonalLocker['slots'], Config.PersonalLocker['weight'], xPlayer.getIdentifier(), Config.jobname)
+        end
+    end)
+end)
+
 RegisterNetEvent("error:AlertPolice", function()
     for k,v in pairs(ESX.GetExtendedPlayers()) do
         if (v.job.name == Config.jobname) then

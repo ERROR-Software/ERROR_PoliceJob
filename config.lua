@@ -281,3 +281,11 @@ Config.Cctv = {
         {label = "Caméra pacific standard", coords = vec4(259.6820, 217.1540, 116.4139, 93.7624), rotX = -52.0},
     }
 }
+
+Config.PersonalLocker = {
+    pos = vec3(462.78591918945,-999.62683105469,30.689571380615),
+    markerZone = 5,
+    interactZone = 2,
+    weight = 70000,
+    slots = 30
+}

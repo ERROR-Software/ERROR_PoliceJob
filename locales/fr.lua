@@ -42,5 +42,6 @@ Locales['fr'] = {
     ['chest_interaction'] = "[E] - Acceder au coffre",
     ['cctv_interaction'] = "[E] - Acceder aux caméras",
     ['cctv_menuname'] = "Menu caméras",
-    ['quit_cam'] = "[E] - Quitter la caméra"
+    ['quit_cam'] = "[E] - Quitter la caméra",
+    ['locker_interact'] = "[E] - Accéder à mon casier"
 }

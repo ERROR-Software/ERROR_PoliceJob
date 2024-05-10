@@ -3,6 +3,7 @@ Config.ESXVersion = "legacy"
 Config.Locale = "fr"
 Config.copLabel = "L.S.P.D"
 Config.jobname = "police"
+Config.MaxPoliceGrades = 4
 Config.Markers = {
     color = {0, 18, 71},
     id = 21,
@@ -274,16 +275,32 @@ Config.Cctv = {
     markerZone = 5,
     interactZone = 2,
     cams = {
-        {label = "Caméra supérette 1", coords = vec4(372.73089599609, 330.15277099609,105.7, 226.63302612305), rotX = -35.0},
-        {label = "Caméra supérette 2", coords = vec4(373.3410, 331.1681, 105.7686, 210.7031), rotX = -35.0},
+        {label = "Supérette 1", coords = vec4(372.73089599609, 330.15277099609,105.7, 226.63302612305), rotX = -35.0},
+        {label = "Ammu-Nation", coords = vec4(256.0959, -47.5529, 72.1175, 111.0387), rotX = -35.0},
+        {label = "Unicorn", coords = vec4(130.4379, -1288.9012, 31.5210, 76.9775), rotX = -28.0},
         {label = "Fleeca Bank 1", coords = vec4(-2965.6858, 476.5087, 17.7483, 316.9306), rotX = -35.0},
-        {label = "Caméra concess", coords = vec4(-62.8412, -1101.7107, 33.5577, 218.5712), rotX = -35.0},
-        {label = "Caméra pacific standard", coords = vec4(259.6820, 217.1540, 116.4139, 93.7624), rotX = -52.0},
+        {label = "Concess", coords = vec4(-62.8412, -1101.7107, 33.5577, 218.5712), rotX = -35.0},
+        {label = "Pacific Standard", coords = vec4(259.6820, 217.1540, 116.4139, 93.7624), rotX = -52.0},
     }
 }
 
 Config.PersonalLocker = {
     pos = vec3(462.78591918945,-999.62683105469,30.689571380615),
+    markerZone = 5,
+    interactZone = 2,
+    weight = 70000,
+    slots = 30
+}
+
+Config.Boss = {
+    pos = vec3(462.0489, -985.6550, 30.7281),
+    markerZone = 5,
+    interactZone = 2,
+}
+
+Config.Saisies = {
+    StashName = "Saisies police",
+    pos = vec3(474.8016, -996.2213, 26.2734),
     markerZone = 5,
     interactZone = 2,
     weight = 70000,

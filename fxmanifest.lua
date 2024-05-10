@@ -7,12 +7,6 @@ version '1.0'
 lua54 'yes'
 
 client_scripts {
-    'src/RageUI.lua',
-    'src/Menu.lua',
-    'src/MenuController.lua',
-    'src/components/*.lua',
-    'src/elements/*.lua',
-    'src/items/*.lua',
     'client/main.lua',
     'client/cl_*.lua'
 }

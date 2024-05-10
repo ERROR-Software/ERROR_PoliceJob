@@ -28,6 +28,15 @@ local options = {
             end, GetVehicleNumberPlateText(d.entity))
         end
     },
+    -- {
+    --     distance = 1.5,
+    --     name = "impound",
+    --     label = _U('impound'),
+    --     icon = "fa-solid fa-warehouse",
+    --     onSelect = function(d)
+            
+    --     end
+    -- },
 }
 
 local function AddVehInteractions()

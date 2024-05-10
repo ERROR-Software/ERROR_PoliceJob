@@ -1,4 +1,3 @@
-local main = RageUI.CreateMenu(("Accueil %s"):format(Config.copLabel), GetPlayerName(PlayerId()))
 local canCall, canComplaint = true, true
 
 local npc = SpawnNpc(Config.accueil['npcmodel'], table.unpack(Config.accueil['pos']))

@@ -1,4 +1,15 @@
+TriggerEvent('esx_society:registerSociety', Config.jobname, Config.copLabel, 'society_'..Config.jobname, 'society_'..Config.jobname, 'society'..Config.jobname, {type = 'public'})
+
 local cuffed_players = {}
+
+AddEventHandler("onResourceStart", function(resourceName)
+    if resourceName ~= GetCurrentResourceName() then return end
+    MySQL.query("SELECT * FROM ox_inventory WHERE name = ?", {Config.Saisies['StashName']}, function(res)
+        if (not res[1]) then
+            exports.ox_inventory:RegisterStash(Config.Saisies['StashName'], ("Saisies %s"):format(Config.copLabel), Config.Saisies['slots'], Config.Saisies['weight'], nil, Config.jobname)
+        end
+    end)
+end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(src)
@@ -71,4 +82,10 @@ ESX.RegisterServerCallback("ERROR_PoliceJob:GetVehicleOwner", function(src, cb, 
     MySQL.query("SELECT * FROM owned_vehicles WHERE plate = ?", {plate}, function(vehicle)
         if (not vehicle[1]) then cb(false) else cb(ESX.GetPlayerFromIdentifier(vehicle[1].owner).getName()) end
     end)
+end)
+
+ESX.RegisterServerCallback("ERROR_PoliceJob:GetSocietyMoney", function(source, cb)
+    TriggerEvent('esx_addonaccount:getSharedAccount', "society_"..Config.jobname, function(account)
+        cb(account.money)
+      end)
 end)

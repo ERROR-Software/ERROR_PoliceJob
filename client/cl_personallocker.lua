@@ -1,24 +1,35 @@
-CreateThread(function()
-    local msec, dst
-    while (function()
-        msec = 1000
-        if (not ESX.PlayerData.job or ESX.PlayerData.job.name ~= Config.jobname) then return true end
-        dst = #(GetEntityCoords(PlayerPedId()) - Config.PersonalLocker['pos'])
-        if (dst > Config.PersonalLocker['markerZone']) then return true end
-        msec = 0
-        DrawMarker(Config.Markers['id'], Config.PersonalLocker['pos'].x, Config.PersonalLocker['pos'].y, Config.PersonalLocker['pos'].z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, Config.Markers['color'][1], Config.Markers['color'][2], Config.Markers['color'][3], 50, Config.Markers['animate'], true, 2, Config.Markers['turn'], nil, false)
-        if (dst > Config.PersonalLocker['interactZone']) then
-            if (lib.isTextUIOpen()) then lib.hideTextUI() end
-            return true 
-        end
-        if (not lib.isTextUIOpen()) then
-            lib.showTextUI(_U('locker_interact'), {position = "left-center"})
-        end
-        if (IsControlJustPressed(0, 51)) then
-            exports.ox_inventory:openInventory('stash', ("%s-police"):format(ESX.PlayerData.identifier))
-        end
-        return true
-    end) () do
-        Wait(msec)
-    end
-end)
+exports.ox_target:addSphereZone({
+    coords = Config.PersonalLocker['pos'],
+    radius = 1.2,
+    distance = 1.2,
+    rotation = 0,
+    debug = Config.Debug,
+    options = {
+        {
+            name = 'police_locker',
+            icon = 'fas fa-lock',
+            label = _U('open_personal_locker'),
+            onSelect = function()
+                local input = lib.inputDialog(_U('locker_data'), {
+                    {type = "number", min = 0, label = _U('locker_code'), required = true},
+                    {type = "input", label = _U('locker_passwd'), required = true, password = true}
+                })
+                if not input or not input[1] or not input[2] then return end
+                ESX.TriggerServerCallback("ERROR_PoliceJob:OpenPersonalLocker", function(data)
+                    if data then
+                        exports.ox_inventory:openInventory("stash", {id = data.id})
+                    else
+                        lib.notify({
+                            title = _U('locker_error'),
+                            description = _U('locker_invalid'),
+                            type = 'error'
+                        })
+                    end
+                end, input[1], input[2])
+            end,
+            canInteract = function(entity, distance, coords, name)
+                return ESX.PlayerData.job and ESX.PlayerData.job.name == Config.jobname
+            end,
+        }
+    },
+})

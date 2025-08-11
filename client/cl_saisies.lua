@@ -1,24 +1,18 @@
-CreateThread(function()
-    local msec, dst
-    while (function()
-        msec = 1000
-        if (not ESX.PlayerData.job or ESX.PlayerData.job.name ~= Config.jobname) then return true end
-        dst = #(GetEntityCoords(PlayerPedId()) - Config.Saisies['pos'])
-        if (dst > Config.Saisies['markerZone']) then return true end
-        msec = 0
-        DrawMarker(Config.Markers['id'], Config.Saisies['pos'].x, Config.Saisies['pos'].y, Config.Saisies['pos'].z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, Config.Markers['color'][1], Config.Markers['color'][2], Config.Markers['color'][3], 50, Config.Markers['animate'], true, 2, Config.Markers['turn'], nil, false)
-        if (dst > Config.Saisies['interactZone']) then
-            if (lib.isTextUIOpen()) then lib.hideTextUI() end
-            return true 
-        end
-        if (not lib.isTextUIOpen()) then
-            lib.showTextUI(_U('chest_interaction'), {position = "left-center"})
-        end
-        if (IsControlJustPressed(0, 51)) then
-            exports.ox_inventory:openInventory('stash', Config.Saisies['StashName'])
-        end
-        return true
-    end) () do
-        Wait(msec)
-    end
-end)
+exports.ox_target:addSphereZone({
+    coords = Config.Saisies['pos'],
+    radius = Config.Saisies['interactZone'],
+    debug = Config.Debug,
+    options = {
+        {
+            name = 'saisie_stash',
+            icon = 'fa-solid fa-box-open',
+            label = _U('chest_interaction'),
+            onSelect = function()
+                exports.ox_inventory:openInventory('stash', Config.Saisies['StashName'])
+            end,
+            canInteract = function(entity, distance, coords, name)
+                return ESX.PlayerData.job and ESX.PlayerData.job.name == Config.jobname
+            end,
+        }
+    }
+})

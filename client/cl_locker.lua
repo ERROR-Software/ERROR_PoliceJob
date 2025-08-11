@@ -9,6 +9,7 @@ local function LoadClothes()
     local c = {
         {
             title = _U("personal_clothes"),
+            icon = 'fa-solid fa-user',
             onSelect = function()
                 ESX.TriggerServerCallback("esx_skin:getPlayerSkin", function(old_skin) 
                     TriggerEvent('skinchanger:getSkin', function(skin)
@@ -21,6 +22,7 @@ local function LoadClothes()
     for k,v in pairs(Config.locker[ESX.PlayerData.job.grade]) do
         table.insert(c, {
             title = v.label,
+            icon = v.icon or 'fa-solid fa-shirt',
             onSelect = function()
                 setUniform(k)
             end
@@ -33,7 +35,8 @@ end
 exports.ox_target:addSphereZone({
     coords = Config.locker['pos'],
     radius = 1.2,
-    debug = false,
+    groups = {Config.jobname},
+    debug = Config.Debug,
     drawSprite = false,
     options = {
         {
@@ -41,7 +44,6 @@ exports.ox_target:addSphereZone({
             icon = 'fa-solid fa-shirt',
             label = _U("open_locker"),
             onSelect = function()
-                if (ESX.PlayerData.job.name ~= Config.jobname) then return ESX.ShowNotification(_U('not_job'), "error") end
                 lib.registerContext({
                     id = 'police_locker',
                     title = 'Agent de police',

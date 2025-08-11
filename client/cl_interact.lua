@@ -1,12 +1,12 @@
-local targeted = false
 local isCuffed = false
 
-local options = {
+exports.ox_target:addGlobalPlayer({
     {
         distance = 1.5,
         name = "cuff",
         icon = "fa-solid fa-handcuffs",
         label = _U('cuff'),
+        groups = {Config.jobname},
         onSelect = function(a)
             local player, dst = ESX.Game.GetClosestPlayer()
             TriggerServerEvent("ERROR_PoliceJob:CuffPlayer", GetPlayerServerId(player))
@@ -18,6 +18,7 @@ local options = {
         name = "search",
         icon = "fa-solid fa-magnifying-glass",
         label = _U('search'),
+        groups = {Config.jobname},
         onSelect = function()
             local player, dst = ESX.Game.GetClosestPlayer()
             exports.ox_inventory:openInventory('player', GetPlayerServerId(player))
@@ -28,6 +29,7 @@ local options = {
         name = "gab",
         icon = "fa-solid fa-hand",
         label = _U('grab'),
+        groups = {Config.jobname},
         onSelect = function()
             local player, dst = ESX.Game.GetClosestPlayer()
             TriggerServerEvent("ERROR_PoliceJob:GrabPlayer", {
@@ -41,6 +43,7 @@ local options = {
         name = "bill",
         icon = "fa-solid fa-scroll",
         label = _U('bill'),
+        groups = {Config.jobname},
         onSelect = function()
             local player, dst = ESX.Game.GetClosestPlayer()
             local input = lib.inputDialog(_U('bill_menu'), {
@@ -55,6 +58,7 @@ local options = {
         name = "take",
         icon = "fa-solid fa-car",
         label = _U('put_car'),
+        groups = {Config.jobname},
         onSelect = function()
             local player, dst = ESX.Game.GetClosestPlayer()
             local vehicle, vdist = ESX.Game.GetClosestVehicle()
@@ -68,33 +72,7 @@ local options = {
             })
         end
     },
-}
-
-local function AddGlobalTarget()
-    targeted = true
-    return exports.ox_target:addGlobalPlayer(options)
-end
-
-RegisterNetEvent("esx:setJob", function(job)
-    if (job.name ~= Config.jobname) then
-        if (targeted) then
-            local e = {}
-            for k,v in pairs(options) do
-                e[#e+1] = v.name
-            end
-            exports.ox_target:removeGlobalPlayer(e)
-            targeted = false
-        end
-        return false 
-    end
-    AddGlobalTarget()
-end)
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(playerData)
-    if (playerData.job.name ~= Config.jobname) then return false end
-    AddGlobalTarget()
-end)
+})
 
 RegisterNetEvent("ERROR_PoliceJob:CuffPlayer", function(player)
     local ped = PlayerPedId()

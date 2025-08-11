@@ -5,6 +5,7 @@ local function GetAllPoliceVeh()
     for _,v in pairs(Config.garage['vehicles'][ESX.PlayerData.job.grade]) do
         c[#c+1] = {
             title = v.label,
+            icon = v.icon or 'fa-solid fa-car', -- Ajoute une icône personnalisable ou celle par défaut
             onSelect = function()
                 for _,p in pairs(Config.garage['parks']) do
                     if (not IsAnyVehicleNearPoint(p.x, p.y, p.z, Config.garage['parkradius'])) then
@@ -24,8 +25,9 @@ exports.ox_target:addLocalEntity(npc.model, {
     distance = Config.garage['interact_dst'],
     icon = 'fa-solid fa-car', 
     label = _U("garage_menu", Config.copLabel), 
+    groups = {Config.jobname},
+    debug = Config.Debug,
     onSelect = function()
-        if (ESX.PlayerData.job.name ~= Config.jobname) then return ESX.ShowNotification(_U('not_job'), "error") end
         lib.registerContext({
             id = 'garage_menu',
             title = _U("armory_titlee"),
@@ -33,22 +35,26 @@ exports.ox_target:addLocalEntity(npc.model, {
         })
         lib.showContext("garage_menu")
     end,
-    canInteract = function(entity, distance, data) 
-        return true
-    end
 })
 
 CreateThread(function()
     local msec
-    while (function()
+    while true do
         msec = 1000
-        if (not ESX.PlayerData.job) then return true end
-        if (ESX.PlayerData.job.name ~= Config.jobname) then return true end
-        if (not IsPedInAnyVehicle(PlayerPedId())) then 
-            if (lib.isTextUIOpen()) then lib.hideTextUI() end
-            return true 
+        if (not ESX.PlayerData.job) or (ESX.PlayerData.job.name ~= Config.jobname) or (not IsPedInAnyVehicle(PlayerPedId())) then
+            if lib.isTextUIOpen() then lib.hideTextUI() end
+            Wait(msec)
+            goto continue
         end
-        if #(GetEntityCoords(PlayerPedId()) - Config.garage['deleteVehicles']) > Config.garage['DeleteInteractDist'] then return true end
+
+        local playerCoords = GetEntityCoords(PlayerPedId())
+        local dist = #(playerCoords - Config.garage['deleteVehicles'])
+        if dist > Config.garage['DeleteInteractDist'] then
+            if lib.isTextUIOpen() then lib.hideTextUI() end
+            Wait(msec)
+            goto continue
+        end
+
         msec = 0
         if (Config.Markers) then
             DrawMarker(Config.Markers['id'], Config.garage['deleteVehicles'].x, Config.garage['deleteVehicles'].y, Config.garage['deleteVehicles'].z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, Config.Markers['color'][1], Config.Markers['color'][2], Config.Markers['color'][3], 50, Config.Markers['animate'], true, 2, Config.Markers['turn'], nil, false)
@@ -57,8 +63,7 @@ CreateThread(function()
         if (IsControlJustPressed(0, 51)) then
             DeleteEntity(GetVehiclePedIsIn(PlayerPedId()))
         end
-        return true
-    end) () do
         Wait(msec)
+        ::continue::
     end
 end)

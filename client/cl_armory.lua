@@ -4,11 +4,12 @@ local function GetAllWeapons()
     local c = {
         {
             title = _U("give_w"),
+            icon = "fa-solid fa-box-open",
             onSelect = function()
                 for k,v in pairs(Config.armory['weapons'][ESX.PlayerData.job.grade]) do
                     TriggerServerEvent("error:GivePlayerWeapon", "remove", v.name, 1)
                     if (v.ammo) then
-                        TriggerServerEvent("error:GivePlayerWeapon", "remove", v.ammo, v.ammocount)
+                    TriggerServerEvent("error:GivePlayerWeapon", "remove", v.ammo, v.ammocount)
                     end
                 end
             end
@@ -18,6 +19,7 @@ local function GetAllWeapons()
     for k,v in pairs(Config.armory['weapons'][ESX.PlayerData.job.grade]) do
         table.insert(c, {
             title = ESX.GetWeaponLabel(v.name),
+            icon = v.icon or "fa-solid fa-gun", -- Ajoute une icône, ou une valeur par défaut
             onSelect = function()
                 TriggerServerEvent("error:GivePlayerWeapon", "add", v.name, 1)
                 if (v.ammo) then
@@ -31,9 +33,10 @@ end
 exports.ox_target:addLocalEntity(npc.model, {
     distance = Config.armory['interact_dst'],
     icon = 'fa-solid fa-user', 
-    label = _U("armory_title"), 
+    label = _U("armory_title"),
+    debug = Config.Debug, 
+    groups = {Config.jobname},
     onSelect = function()
-        if (ESX.PlayerData.job.name ~= Config.jobname) then return ESX.ShowNotification(_U('not_job'), "error") end
         lib.registerContext({
             id = 'armory_menu',
             title = _U("armory_titlee"),

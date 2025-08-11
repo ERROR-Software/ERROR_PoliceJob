@@ -1,6 +1,7 @@
 Config = {}
 Config.ESXVersion = "legacy"
 Config.Locale = "fr"
+Config.Debug = false
 Config.copLabel = "L.S.P.D"
 Config.jobname = "police"
 Config.MaxPoliceGrades = 4
